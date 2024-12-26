@@ -9,7 +9,7 @@ const { body, validationResult } = require("express-validator");
 const { rateLimit } = require("express-rate-limit");
 require("dotenv").config();
 
-const PORT = process.env.API_PORT;
+const PORT = process.env.API_PORT || 3000;
 
 // bcrypt
 
@@ -84,7 +84,7 @@ const createTokenChain = () =>
 const app = express();
 
 const corsOptions = {
-  origin: process.env.ORIGIN,
+  origin: process.env.ORIGIN || null,
   methods: process.env.ALLOWED_METHODS || "GET,POST",
   credentials: true,
   optionSuccessStatus: 200,
@@ -104,11 +104,11 @@ app.use((err, req, res, next) => {
 // DATABASE
 
 const db = mysql.createPool({
-  host: process.env.HOST,
-  user: process.env.USER,
-  password: process.env.PASS,
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
   database: process.env.DATABASE,
-  port: process.env.DB_PORT,
+  port: process.env.DB_PORT || 3306,
   waitForConnections: true,
   connectTimeout: 60000,
   connectionLimit: parseInt(process.env.DB_CONNECTION_LIMIT) || 10,
